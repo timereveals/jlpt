@@ -218,7 +218,6 @@ class JLPT():
             pass
         
         groups = []
-        scope = scope.split(',')
         for i in scope:
             if i == 'gojuon':
                 groups.append(_gojuon)
@@ -242,8 +241,8 @@ class JLPT():
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-k', '--key', type=str, default='romaji', help=r'romaji', required=False)
-    parser.add_argument('-g', '--group', type=str, default='gojuon', help=r'gojuon', required=False)
+    parser.add_argument('-k', '--key', type=str, default='romaji', choices=['romaji', 'hiragana', 'katakana'], required=False)
+    parser.add_argument('-g', '--group', nargs='+', default=['gojuon'], choices=['gojuon', 'yoon', 'dakuten', 'handakuten', 'yoon_dakuten', 'yoon_handakuten'], required=False)
     parser.add_argument('-c', '--count', type=int, default=50, help=r'count', required=False)
     args = parser.parse_args()
 
