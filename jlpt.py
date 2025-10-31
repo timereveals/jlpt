@@ -2,6 +2,7 @@
 
 import random
 import argparse
+import time
 
 
 _gojuon = [
@@ -109,7 +110,7 @@ _dakuten = [
     ('ze', 'ぜ', 'ゼ'), 
     ('zo', 'ぞ', 'ゾ'), 
 
-    ('da', 'た', 'タ'), 
+    ('da', 'だ', 'ダ'), 
     ('di(ji)', 'ぢ', 'ヂ'), 
     ('du(zu)', 'づ', 'ヅ'), 
     ('de', 'で', 'デ'), 
@@ -183,12 +184,26 @@ class JLPT():
     def display(self, sample, index):
         _ = input('Press Enter to continue:')
         width = 10
+        time_cost = {}
         for one in sample:
             hint = one[index]
+            begin = time.time()
             _ = input(hint+'')
+            end = time.time()
             print(''.join([f'{i: <{width}}' for i in one]))
+            elapsed = round(end - begin, 1)
+            time_cost[one] = elapsed
+            print(f'{elapsed}s')
             print()
-        pass
+
+        total_time = sum(time_cost.values())
+        rank = [(str(v),) + k for k, v in sorted(time_cost.items(), key=lambda i: i[1], reverse=True)]
+        print(f'Total time:{total_time}s')
+        top_n = 10
+        if len(rank) < top_n:
+            top_n = len(rank)
+        for i in range(top_n):
+            print(''.join([f'{i: <{width}}' for i in rank[i]]))
 
 
     def run(self, key, scope, count):
